@@ -15,39 +15,7 @@ st.set_page_config(page_title="Student Salary Prediction", page_icon="🎓", lay
 RANDOM_STATE = 42
 DATA_FILE = "student_salary.csv"
 
-@st.cache_data
-def create_demo_dataset(n=1200):
-    rng = np.random.default_rng(RANDOM_STATE)
-    age = rng.integers(20, 27, n)
-    gender = rng.choice(["Male", "Female"], n)
-    education_level = rng.choice(["BTech", "BCA", "MCA", "MTech", "BSc", "MBA"], n)
-    cgpa = np.clip(rng.normal(7.7, 0.9, n), 5, 10).round(2)
-    internship_months = np.clip(rng.poisson(5, n), 0, 18)
-    projects = np.clip(rng.poisson(3, n), 0, 10)
-    certifications = np.clip(rng.poisson(2, n), 0, 8)
-    skills_score = np.clip(rng.normal(70, 14, n), 30, 100).round(1)
-    communication_score = np.clip(rng.normal(68, 15, n), 30, 100).round(1)
-    college_tier = rng.choice(["Tier 1", "Tier 2", "Tier 3"], n, p=[.20, .45, .35])
-    placement_status = rng.choice(["Placed", "Not Placed"], n, p=[.82, .18])
-    tier_bonus = np.select([college_tier == "Tier 1", college_tier == "Tier 2"], [160000, 70000], default=0)
-    degree_bonus = np.select(
-        [education_level == "MTech", education_level == "MBA", education_level == "MCA"],
-        [80000, 60000, 40000], default=0
-    )
-    placement_bonus = np.where(placement_status == "Placed", 50000, -180000)
-    salary = (
-        180000 + cgpa * 85000 + internship_months * 18000 + projects * 30000
-        + certifications * 12000 + skills_score * 7000 + communication_score * 3500
-        + tier_bonus + degree_bonus + placement_bonus + rng.normal(0, 90000, n)
-    )
-    salary = np.clip(salary, 120000, 1800000).round(-3).astype(int)
-    return pd.DataFrame({
-        "age": age, "gender": gender, "education_level": education_level,
-        "cgpa": cgpa, "internship_months": internship_months, "projects": projects,
-        "certifications": certifications, "skills_score": skills_score,
-        "communication_score": communication_score, "college_tier": college_tier,
-        "placement_status": placement_status, "salary": salary
-    })
+
 
 def load_data():
     if os.path.exists(DATA_FILE):
