@@ -186,3 +186,9 @@ if st.button("Predict Salary", type="primary", use_container_width=True):
 st.divider()
 st.subheader("About this project")
 st.write("App student profile features se annual salary estimate karta hai aur salary ko Low, Medium, High categories mein classify karta hai. Accurate results ke liye representative, clean, real placement data use karein.")
+pd.qcut(
+    df["Salary"],
+    q=3,
+    labels=False,
+    duplicates="drop"
+)
