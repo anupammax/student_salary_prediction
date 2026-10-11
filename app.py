@@ -90,10 +90,6 @@ def train_models(df):
 st.title("🎓 Student Salary Prediction")
 st.caption("Machine Learning project — Regression se estimated annual salary aur Classification se salary category.")
 
-df = load_data()
-with st.expander("Dataset preview", expanded=False):
-    st.write(f"Rows: {len(df)} | Columns: {len(df.columns)}")
-    st.dataframe(df.head(10), use_container_width=True)
 
 try:
     reg_model, clf_model, X, y, q1, q2, metrics = train_models(df)
